@@ -6,7 +6,8 @@ import json
 
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
-
+db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
+movies_ref = db.collection("movies")
 
 
 st.title('Streamlit con atributo cache')
@@ -14,8 +15,7 @@ st.title('Streamlit con atributo cache')
 # Función para cargar datos desde Firestore con caché
 @st.cache_data
 def load_data(nrows=None):
-    db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
-    movies_ref = db.collection("movies")
+
     docs = movies_ref.stream()
     
     # Convertir los documentos en una lista de diccionarios
