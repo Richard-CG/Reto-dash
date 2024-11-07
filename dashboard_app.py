@@ -11,20 +11,32 @@ creds = service_account.Credentials.from_service_account_info(key_dict)
 
 st.title('Streamlit con atributo cache')
 
-@st.cache
+# Función para cargar datos desde Firestore con caché
+@st.cache_data
 def load_data(nrows=None):
-  db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
-  movies_ref = db.collection("movies")
-  docs = movies_ref.stream()
-  movies_data = []
-  for doc in docs:
-      movies_data.append(doc.to_dict())
-  df = pd.DataFrame(movies_data,nrows=nrows)
+    db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
+    movies_ref = db.collection("movies")
+    docs = movies_ref.stream()
+    
+    # Convertir los documentos en una lista de diccionarios
+    movies_data = [doc.to_dict() for doc in docs]
+    df = pd.DataFrame(movies_data)
+    
+    # Limitar el número de filas si se especifica
+    if nrows:
+        df = df.head(nrows)
+    
+    return df
 
-  return df
-data_load_state=st.text("cargando data...")
-df=load_data(100)
-data_load_state.text("Bien!  (usando st.cache)")
+# Estado de carga
+data_load_state = st.text("Cargando datos...")
+
+# Llamar a la función para cargar los datos
+df = load_data(100)
+data_load_state.text("¡Datos cargados exitosamente! (usando st.cache)")
+
+
+
 
 
 # Checkbox para mostrar todos los filmes
