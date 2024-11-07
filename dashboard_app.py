@@ -9,6 +9,11 @@ creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
 movies_ref = db.collection("movies")
 
+docs = movies_ref.stream()
+
+# Convertir los documentos en una lista de diccionarios
+movies_data = [doc.to_dict() for doc in docs]
+print(movies_data)
 
 st.title('Streamlit con atributo cache')
 
@@ -16,10 +21,6 @@ st.title('Streamlit con atributo cache')
 @st.cache_data
 def load_data(nrows=None):
 
-    docs = movies_ref.stream()
-    
-    # Convertir los documentos en una lista de diccionarios
-    movies_data = [doc.to_dict() for doc in docs]
     df = pd.DataFrame(movies_data)
     
     # Limitar el número de filas si se especifica
