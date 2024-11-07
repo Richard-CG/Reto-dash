@@ -6,14 +6,14 @@ import json
 
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
-db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
+
 
 
 st.title('Streamlit con atributo cache')
 
 @st.cache
 def load_data(nrows=None):
-
+  db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
   movies_ref = db.collection("movies")
   docs = movies_ref.stream()
   movies_data = []
