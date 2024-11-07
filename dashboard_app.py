@@ -13,6 +13,7 @@ docs = movies_ref.stream()
 
 # Convertir los documentos en una lista de diccionarios
 movies_data = [doc.to_dict() for doc in docs]
+st.write(pd.DataFrame(movies_data))
 print(movies_data)
 
 st.title('Streamlit con atributo cache')
