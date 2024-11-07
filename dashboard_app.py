@@ -20,16 +20,14 @@ def load_data(nrows=None):
   df = pd.DataFrame(movies_data)
     # Limitar el número de filas si se especifica
   if nrows:
-
     df = df.head(nrows)
-    
   return df
 
 # Estado de carga
 data_load_state = st.text("Cargando datos...")
 
 # Llamar a la función para cargar los datos
-df = load_data(100)
+df = load_data(1000)
 data_load_state.text("¡Datos cargados exitosamente! (usando st.cache)")
 
 
