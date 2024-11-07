@@ -7,14 +7,27 @@ import json
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
-movies_ref = db.collection("movies")
-docs = movies_ref.stream()
-movies_data = []
-for doc in docs:
-    movies_data.append(doc.to_dict())
 
-df = pd.DataFrame(movies_data)
 
+st.title('Streamlit con atributo cache')
+
+
+
+DATA_URL=('/content/dataset.csv')
+@st.cache
+def load_data(nrows):
+  movies_ref = db.collection("movies")
+  docs = movies_ref.stream()
+  movies_data = []
+  for doc in docs:
+      movies_data.append(doc.to_dict())
+  df = pd.DataFrame(movies_data,nrows=nrows)
+
+  return df
+data_load_state=st.text("cargando data...")
+df=load_data(1000)
+data_load_state.text("Bien!  (usando st.cache)")
+if
 
 # Checkbox para mostrar todos los filmes
 if st.sidebar.checkbox("Mostrar todos los filmes"):
