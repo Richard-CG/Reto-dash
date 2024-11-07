@@ -25,7 +25,7 @@ def load_data(nrows):
 
   return df
 data_load_state=st.text("cargando data...")
-df=load_data(1000)
+df=load_data(100)
 data_load_state.text("Bien!  (usando st.cache)")
 
 
