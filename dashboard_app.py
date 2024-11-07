@@ -11,11 +11,9 @@ db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
 
 st.title('Streamlit con atributo cache')
 
-
-
-DATA_URL=('/content/dataset.csv')
 @st.cache
-def load_data(nrows):
+def load_data(nrows=None):
+
   movies_ref = db.collection("movies")
   docs = movies_ref.stream()
   movies_data = []
