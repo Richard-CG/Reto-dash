@@ -27,7 +27,7 @@ def load_data(nrows):
 data_load_state=st.text("cargando data...")
 df=load_data(1000)
 data_load_state.text("Bien!  (usando st.cache)")
-if
+
 
 # Checkbox para mostrar todos los filmes
 if st.sidebar.checkbox("Mostrar todos los filmes"):
