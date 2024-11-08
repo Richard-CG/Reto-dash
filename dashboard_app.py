@@ -8,7 +8,7 @@ key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds, project="reto-dashboard-6ad18")
 movies_ref = db.collection("movies")
-docs = movies_ref.stream()
+docs = movies_ref.limit(10).stream()
 movies_data = [doc.to_dict() for doc in docs]
 df=pd.DataFrame(movies_data)
 st.write(df)
@@ -28,7 +28,7 @@ def load_data(nrows=None):
 data_load_state = st.text("Cargando datos...")
 
 # Llamar a la función para cargar los datos
-df = load_data(200)
+df = load_data(10)
 data_load_state.text("¡Datos cargados exitosamente! (usando st.cache)")
 
 
